@@ -4,7 +4,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "空腹虫",
   lang: 'zh-CN',  // 设置中文简体
-  base: "/blog/",
+  base: "/",
   description: "----",
   // 在head里添加其他的元素，例如link,script等。下面例子为：添加 favicon 图标
   head: [['link', { rel: 'icon', href: '/674孟.svg' }]],
