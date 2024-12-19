@@ -5,7 +5,7 @@
   "scripts": {
     "docs:dev": "vitepress dev docs --port 4500",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs --port 4800"
   },
   "keywords": [],
   "author": "",

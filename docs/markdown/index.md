@@ -6,7 +6,7 @@ hero:
   name: "空腹虫"
   text: "---"
   image:
-    src: /public/home-icon.png
+    src: /home-icon.png
     alt: 背景图
   tagline: ''
   actions:

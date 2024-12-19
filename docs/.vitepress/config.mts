@@ -7,7 +7,7 @@ export default defineConfig({
   base: "/blog/",
   description: "----",
   // 在head里添加其他的元素，例如link,script等。下面例子为：添加 favicon 图标
-  head: [['link', { rel: 'icon', href: '/blog/674孟.svg' }]],
+  head: [['link', { rel: 'icon', href: '/674孟.svg' }]],
   // 当设置为true时，VitePress 将从 URL 中删除尾随的.html（启用此功能可能需要在您的托管平台上进行额外配置。为了让它工作，您的服务器必须能够在访问/foo时提供/foo.html而无需重定向。）
   cleanUrls: true,
   srcDir: './markdown',
@@ -16,7 +16,7 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     // 导航栏左侧的标题之前的logo。接受路径字符串或对象来为亮/暗模式设置不同的logo。
-    logo: '/public/home-icon.png',
+    logo: '/home-icon.png',
     // 导航栏左侧的标题（默认引用 config.title 值的站点标题）
     siteTitle: 'meng ui',
     outlineTitle: '当前页',
