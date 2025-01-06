@@ -3,10 +3,10 @@
 layout: home
 
 hero:
-  name: "空腹虫"
-  text: "---"
+  name: "windDrop's blog"
+  text: "学习笔记"
   image:
-    src: /home-icon.png
+    src: /bg2.jpg
     alt: 背景图
   tagline: ''
   actions:

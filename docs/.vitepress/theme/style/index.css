@@ -1,2 +1,6 @@
 @import "./var.css";
 @import "./blur.css";
+
+.image-src{
+    border-radius:50%;
+}
