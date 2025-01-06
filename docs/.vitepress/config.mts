@@ -48,7 +48,7 @@ export default defineConfig({
             { text: '小工具', link: '/vue/2',
               items: [
                 { text: 'immer', link: '/react/reactBook/immer' },
-                { text: '快速33', link: '/vue/2' }
+                { text: '快速', link: '/vue/2' }
               ]
             }
           ]
