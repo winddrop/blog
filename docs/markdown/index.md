@@ -35,5 +35,9 @@ features:
     icon:
       src: /js.svg
     details: 
+  - title: 工具集合
+    icon:
+      src: /tool.svg
+    details: 
 ---
 

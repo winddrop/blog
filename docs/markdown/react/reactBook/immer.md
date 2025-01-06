@@ -9,9 +9,12 @@
 ### produce
 
 ```jsx
-pnpm install --save immer
+pnpm
+install--
+save
+immer
 
-import { produce } from 'immer';
+import {produce} from 'docs/markdown/react/reactBook/immer';
 ```
 
 直接对于useState使用

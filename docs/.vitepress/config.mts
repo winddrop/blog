@@ -31,7 +31,7 @@ export default defineConfig({
       { text: '首页', link: '/' },
       { text: 'vue', link: '/vue/1', activeMatch: '/vue/'},
       { text: 'react', items: [
-          { text: 'react小册', link: '/reactBook/1' }
+          { text: 'react小册', link: '/react/reactBook/1',activeMatch: '/react/' }
         ]  },
       { text: 'API', items: [
           { text: 'Chinese', link: '/language/chinese' }
@@ -44,10 +44,10 @@ export default defineConfig({
           text: 'react笔记',
           collapsed: true,
           items: [
-            { text: '安装指南', link: '/vue/1' },
+            { text: '安装指南', link: '/react/reactBook/1' },
             { text: '小工具', link: '/vue/2',
               items: [
-                { text: 'immer', link: '/reactBook/immer' },
+                { text: 'immer', link: '/react/reactBook/immer' },
                 { text: '快速33', link: '/vue/2' }
               ]
             }
@@ -118,7 +118,7 @@ export default defineConfig({
       // 版权前显示的信息 （支持 HTML 字符串。注意：只能内联元素，因为该内容渲染在p元素内）
       message: 'Released under the MIT License.',
       // 实际的版权文本 （支持 HTML 字符串。注意：只能内联元素，因为该内容渲染在p元素内）
-      copyright: 'Copyright © 2024-present Liu'
+      copyright: 'Copyright © 2024-present Junguang'
     },
   }
 })
