@@ -29,13 +29,39 @@ export default defineConfig({
     },
     nav: [
       { text: '首页', link: '/' },
-      { text: '指南', link: '/vue/1', activeMatch: '/vue/'},
+      { text: 'vue', link: '/vue/1', activeMatch: '/vue/'},
+      { text: 'react', items: [
+          { text: 'react小册', link: '/reactBook/1' }
+        ]  },
       { text: 'API', items: [
           { text: 'Chinese', link: '/language/chinese' }
         ] },
     ],
 // 侧边栏配置
     sidebar: {
+      '/react/': [  // 针对指南部分
+        {
+          text: 'react笔记',
+          collapsed: true,
+          items: [
+            { text: '安装指南', link: '/vue/1' },
+            { text: '小工具', link: '/vue/2',
+              items: [
+                { text: 'immer', link: '/reactBook/immer' },
+                { text: '快速33', link: '/vue/2' }
+              ]
+            }
+          ]
+        },
+        {
+          text: '高级特性',
+          collapsed: true,
+          items: [
+            { text: '插件', link: '/guide/plugins' },
+            { text: '配置', link: '/guide/configuration' }
+          ]
+        }
+      ],
       '/vue/': [  // 针对指南部分
         {
           text: '开始使用',
