@@ -1,14 +1,17 @@
 /* var.css */
+
+
+
 :root {
-    --vp-c-brand-1: rgba(64, 158, 255, 1);
-    --vp-c-brand-2: rgba(64, 158, 255, 0.8);
-    --vp-c-brand-3: rgba(64, 158, 255, 1);
+    --vp-c-brand-1: rgba(90, 41, 228, 1);
+    --vp-c-brand-2: #5b29e45d;
+    --vp-c-brand-3: rgba(90, 41, 228, .7);
 }
 
 .dark {
-    --vp-c-brand-1: rgba(64, 158, 255, 0.6);
-    --vp-c-brand-2: rgba(64, 158, 255, 0.8);
-    --vp-c-brand-3: rgba(64, 158, 255, 1);
+    --vp-c-brand-1: rgba(90, 41, 228, 1);
+    --vp-c-brand-2: #5b29e45d;
+    --vp-c-brand-3: rgba(90, 41, 228, .7);
 }
 /* 以前的vp-c-brand已弃用 */
 
