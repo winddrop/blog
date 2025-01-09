@@ -8,13 +8,12 @@
 
 ### produce
 
-```jsx
-pnpm
-install--
-save
-immer
+```bash
+pnpm i -S immer
+```
 
-import {produce} from 'docs/markdown/react/reactBook/immer';
+```jsx
+import {produce} from 'docs/markdown/react/reactBook/immer/immer';
 ```
 
 直接对于useState使用
