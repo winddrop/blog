@@ -6,7 +6,7 @@ hero:
   name: "windDrop's blog"
   text: "学习笔记"
   image:
-    src: /bg2.jpg
+    src: /bg3.jpg
     alt: 背景图
   tagline: ''
   actions:
