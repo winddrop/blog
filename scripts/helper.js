@@ -2,7 +2,6 @@
 export function isDuplicate(items, text, link) {
     return items.some(item => item.text === text && item.link === link);
 }
-
 // 主函数：整理数据为目标结构
 export function organizeData(data) {
     const topCategories = {}; // 存储顶级分类
