@@ -1,19 +1,25 @@
 {
-  "name": "blog",
+  "name": "notion_blog",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "docs:dev": "vitepress dev docs --port 4500",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs --port 4800"
+    "dev": "vitepress dev docs",
+    "build": "npm run sync && vitepress build docs",
+    "serve": "vitepress serve docs",
+    "sync": "node scripts/sync-notion.js",
+    "watch": "node scripts/watch-notion.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "fs": "0.0.1-security",
-    "path": "^0.12.7",
-    "vitepress": "^1.5.0"
+    "node-fetch": "2.7.0",
+    "vitepress": "^1.6.4"
+  },
+  "dependencies": {
+    "@notionhq/client": "^4.0.1",
+    "dotenv": "^17.2.1",
+    "gray-matter": "^4.0.3"
   }
 }
