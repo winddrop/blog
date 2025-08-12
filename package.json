@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "vitepress dev docs",
-    "build": "npm run sync && vitepress build docs",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "npm run sync && vitepress build docs",
     "serve": "vitepress serve docs",
     "sync": "node scripts/sync-notion.js",
     "watch": "node scripts/watch-notion.js"
