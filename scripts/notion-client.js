@@ -133,7 +133,6 @@ class RobustNotionClient {
                 ],
                 page_size: 10, // 减少单次请求量
             });
-            console.log(response)
             return response.results;
         }, '获取数据库页面');
     }
@@ -202,7 +201,6 @@ class RobustNotionClient {
 
                 return await this.notion.blocks.children.list(params);
             }, `获取页面内容 ${pageId.substring(0, 8)}`);
-            console.log('response',response)
             allBlocks.push(...response.results);
             hasMore = response.has_more;
             nextCursor = response.next_cursor;

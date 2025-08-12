@@ -83,7 +83,6 @@ class NotionSync {
                 fs.mkdirSync(categoryDir, { recursive: true });
             }
             const filePath = path.join(categoryDir, fileName);
-            console.log(filePath)
             // 写入文件
             fs.writeFileSync(filePath, markdown, 'utf-8');
 
@@ -143,12 +142,12 @@ hero:
   name: "windDrop"
   text: "学习笔记"
   image:
-    src: /crocodile.png
+    src: /blog.png
     alt: 背景图
-  actions:
-    - theme: alt
-      text: View on GitHub
-      link: https://github.com/raindropLiu
+  // actions:
+  //   - theme: alt
+  //     text: View on GitHub
+  //     link: https://github.com/winddrop
 features:
 ${Object.keys(categories).map(category => `  - title: ${category}
     link: /${category}/
@@ -205,7 +204,7 @@ export default defineConfig({
       provider: 'local' // 本地搜索
     },
     // 在head里添加其他的元素，例如link,script等。下面例子为：添加 favicon 图标
-  head: [['link', { rel: 'icon', href: '/flag.svg' }]],
+  head: [['link', { rel: 'icon', href: '/crocodile.png' }]],
   // 当设置为true时，VitePress 将从 URL 中删除尾随的.html（启用此功能可能需要在您的托管平台上进行额外配置。为了让它工作，您的服务器必须能够在访问/foo时提供/foo.html而无需重定向。）
   cleanUrls: true,
   // 构建时，不构建哪些md文件
@@ -213,7 +212,7 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     // 导航栏左侧的标题之前的logo。接受路径字符串或对象来为亮/暗模式设置不同的logo。
-    logo: '/flag.svg',
+    logo: '/crocodile.png',
     // 导航栏左侧的标题（默认引用 config.title 值的站点标题）
     siteTitle: 'windDrop',
     nav: ${JSON.stringify(_nav, null, 2)},

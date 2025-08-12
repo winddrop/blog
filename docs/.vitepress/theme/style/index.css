@@ -4,8 +4,29 @@
 .image-src{
     /*border-radius:50%;*/
 }
+.image-bg{
+    border-radius: 0 !important;
+    opacity: 0.4;
+}
+.VPFeatures{
+    margin-top: 40px;
+}
 @media (min-width: 960px) {
+    .VPFeatures{
+        margin-top: 40px;
+    }
     .image-container{
         transform: translate(-32px, -5px) !important;
     }
+    .VPHomeHero .VPImage {
+        width: 260px;
+        height: auto;
+    }
+}
+
+@media (min-width: 300px ) and (max-width: 960px) {
+    .VPFeatures{
+        margin-top: 0px;
+    }
+
 }

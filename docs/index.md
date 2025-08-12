@@ -4,12 +4,12 @@ hero:
   name: "windDrop"
   text: "学习笔记"
   image:
-    src: /crocodile.png
+    src: /blog.png
     alt: 背景图
-  actions:
-    - theme: alt
-      text: View on GitHub
-      link: https://github.com/raindropLiu
+  // actions:
+  //   - theme: alt
+  //     text: View on GitHub
+  //     link: https://github.com/winddrop
 features:
   - title: likou
     link: /likou/

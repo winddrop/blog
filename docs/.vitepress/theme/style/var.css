@@ -29,11 +29,10 @@
     /*hero logo背景渐变色 */
     --vp-home-hero-image-background-image: linear-gradient(
             -45deg,
-
-            rgb(65,184,130) 50%,
+            var(--vp-c-brand-3) 50%,
             var(--vp-c-brand-2) 50%
     );
-    --vp-home-hero-image-filter: blur(40px);
+    --vp-home-hero-image-filter: blur(30px);
 }
 
 /* 也可自行单独修改brand按钮 */
