@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: "WD-笔记",
+  title: "winddrop's blog",
   lang: 'zh-CN',  // 设置中文简体
   base: "/",
   search: {
@@ -25,63 +25,117 @@ export default defineConfig({
     "link": "/"
   },
   {
-    "text": "likou",
+    "text": "关于",
+    "activeMatch": "/关于/",
     "items": [
       {
-        "text": "licko1",
-        "link": "/likou/",
-        "activeMatch": "/likou/"
+        "text": "图床搭建",
+        "link": "/关于/图床搭建/图床搭建/",
+        "activeMatch": "/关于/图床搭建/"
+      },
+      {
+        "text": "博客",
+        "link": "/关于/博客/博客/",
+        "activeMatch": "/关于/博客/"
       }
     ]
   },
   {
-    "text": "suanfa",
+    "text": "力扣",
+    "activeMatch": "/力扣/",
     "items": [
       {
-        "text": "suan1",
-        "link": "/suanfa/",
-        "activeMatch": "/suanfa/"
+        "text": "测试",
+        "link": "/力扣/测试/websoket/",
+        "activeMatch": "/力扣/测试/"
+      },
+      {
+        "text": "teset",
+        "link": "/力扣/teset/单调栈/",
+        "activeMatch": "/力扣/teset/"
+      }
+    ]
+  },
+  {
+    "text": "算法",
+    "activeMatch": "/算法/",
+    "items": [
+      {
+        "text": "测试1",
+        "link": "/算法/测试1/测试2/数据结构和算法/",
+        "activeMatch": "/算法/测试1/测试2/"
       }
     ]
   }
 ],
     
     sidebar: {
-  "/likou/": [
+  "/关于/": [
     {
-      "text": "likou",
+      "text": "关于",
       "collapsed": false,
       "items": [
         {
-          "text": "licko1",
+          "text": "图床搭建",
           "items": [
             {
-              "text": "websoket",
-              "link": "/likou/licko1/websoket.md"
+              "text": "图床搭建",
+              "link": "/关于/图床搭建/图床搭建.md"
             }
           ]
         },
         {
-          "text": "单调栈",
-          "link": "/likou/单调栈.md"
+          "text": "博客",
+          "items": [
+            {
+              "text": "博客",
+              "link": "/关于/博客/博客.md"
+            }
+          ]
         }
       ]
     }
   ],
-  "/suanfa/": [
+  "/力扣/": [
     {
-      "text": "suanfa",
+      "text": "力扣",
       "collapsed": false,
       "items": [
         {
-          "text": "suan1",
+          "text": "测试",
           "items": [
             {
-              "text": "suan2",
+              "text": "websoket",
+              "link": "/力扣/测试/websoket.md"
+            }
+          ]
+        },
+        {
+          "text": "teset",
+          "items": [
+            {
+              "text": "单调栈",
+              "link": "/力扣/teset/单调栈.md"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "/算法/": [
+    {
+      "text": "算法",
+      "collapsed": false,
+      "items": [
+        {
+          "text": "测试1",
+          "items": [
+            {
+              "text": "测试2",
               "items": [
                 {
                   "text": "数据结构和算法",
-                  "link": "/suanfa/suan1/suan2/数据结构和算法.md"
+                  "link": "/算法/测试1/测试2/数据结构和算法.md"
                 }
               ]
             }

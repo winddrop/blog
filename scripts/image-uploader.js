@@ -28,12 +28,14 @@ class ImageUploader {
     }
   }
   // 删除图床文件夹
-  async deleteFolder() {
-    console.log(`📤 删除图床文件夹: ${process.env.IMG_UPLOAD_FOLDER}`);
+  async deleteFolder(pageId) {
+    console.log(
+      `📤 删除图床文件夹: ${process.env.IMG_UPLOAD_FOLDER}/${pageId}`
+    );
     const formData = new FormData();
     try {
       const response = await fetch(
-        `${this.config.IMG_DELETE_URL}${process.env.IMG_UPLOAD_FOLDER}?folder=true`,
+        `${this.config.IMG_DELETE_URL}${process.env.IMG_UPLOAD_FOLDER}/${pageId}?folder=true`,
         {
           method: "GET",
           timeout: this.config.timeout,
@@ -178,7 +180,7 @@ class ImageUploader {
   }
 
   // 生成唯一文件名
-  generateFileName(originalUrl, contentType) {
+  generateFileName(originalUrl, contentType, pageId) {
     const timestamp = Date.now();
     const random = Math.random().toString(36).substring(2, 8);
     const extension = this.getFileExtension(contentType, originalUrl);
@@ -187,7 +189,7 @@ class ImageUploader {
   }
 
   // 上传图片到图床
-  async uploadToImageBed(imageBuffer, fileName) {
+  async uploadToImageBed(imageBuffer, fileName, pageId) {
     console.log(`📤 上传图片到图床: ${fileName}`);
 
     let lastError;
@@ -196,9 +198,9 @@ class ImageUploader {
       try {
         const formData = new FormData();
         formData.append("file", imageBuffer, fileName);
-
+        console.log(`uploadToImageBed  ${this.config.uploadFolder}/${pageId}`);
         const response = await fetch(
-          `${this.config.uploadUrl}?authCode=${this.config.authCode}&uploadFolder=${this.config.uploadFolder}`,
+          `${this.config.uploadUrl}?authCode=${this.config.authCode}&uploadFolder=${this.config.uploadFolder}/${pageId}`,
           {
             method: "POST",
             body: formData,
@@ -275,7 +277,7 @@ class ImageUploader {
   }
 
   // 处理图片：下载并上传到图床
-  async processImage(notionImageUrl, caption = "") {
+  async processImage(notionImageUrl, caption = "", pageId) {
     try {
       // 检查缓存
       const cachedUrl = this.getCachedImageUrl(notionImageUrl);
@@ -297,7 +299,8 @@ class ImageUploader {
       // 上传到图床
       const uploadedUrl = await this.uploadToImageBed(
         imageData.buffer,
-        fileName
+        fileName,
+        pageId
       );
 
       // 缓存结果
@@ -313,7 +316,7 @@ class ImageUploader {
     }
   }
 
-  // 批量处理图片
+  // todo 暂不可用 批量处理图片
   async processBatchImages(imageUrls) {
     console.log(`🖼️  批量处理 ${imageUrls.length} 张图片...`);
 

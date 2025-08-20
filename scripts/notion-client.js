@@ -129,20 +129,29 @@ class RobustNotionClient {
 
   // 获取数据库页面（带重试）
   async getPages() {
-    // 删除图床文件夹
-    await this.imageUploader.deleteFolder();
     return this.withRetry(async () => {
       const response = await this.notion.databases.query({
         database_id: this.databaseId,
         filter: {
-          property: "status",
-          select: {
-            equals: "完成",
-          },
+          or: [
+            {
+              property: "status",
+              select: {
+                equals: "待更新",
+              },
+            },
+            {
+              property: "status",
+              select: {
+                equals: "更新完成",
+              },
+            },
+          ],
         },
         sorts: [
+          // `"ascending"` or `"descending"`
           {
-            property: "created_time",
+            property: "date",
             direction: "descending",
           },
         ],
@@ -151,52 +160,6 @@ class RobustNotionClient {
       return response.results;
     }, "获取数据库页面");
   }
-
-  // 获取所有页面（分页处理）
-  async getAllPages() {
-    const allPages = [];
-    let hasMore = true;
-    let nextCursor = undefined;
-
-    while (hasMore) {
-      const response = await this.withRetry(async () => {
-        const queryParams = {
-          database_id: this.databaseId,
-          filter: {
-            property: "status",
-            select: {
-              equals: "Published",
-            },
-          },
-          sorts: [
-            {
-              property: "created_time",
-              direction: "descending",
-            },
-          ],
-          page_size: 10,
-        };
-
-        if (nextCursor) {
-          queryParams.start_cursor = nextCursor;
-        }
-
-        return await this.notion.databases.query(queryParams);
-      }, `获取页面批次 (游标: ${nextCursor?.substring(0, 8) || "首页"})`);
-
-      allPages.push(...response.results);
-      hasMore = response.has_more;
-      nextCursor = response.next_cursor;
-
-      // 在分页之间添加延迟
-      if (hasMore) {
-        await this.sleep(500);
-      }
-    }
-
-    return allPages;
-  }
-
   // 获取页面内容（带重试和分批处理）
   async getPageContent(pageId, properties) {
     const allBlocks = [];
@@ -338,16 +301,18 @@ class RobustNotionClient {
       tags: properties.tags?.multi_select?.map((tag) => tag.name) || [],
       status: properties.status?.select?.name || "draft",
       created_time: properties.created_time?.created_time,
+      indexDate: properties.date?.date?.start || new Date(),
       last_edited_time: properties.last_edited_time?.last_edited_time,
       url: page.url,
     };
   }
 
   // 转换 blocks 为 Markdown（增加错误处理）
-  async blocksToMarkdown(blocks) {
+  async blocksToMarkdown(blocks, pageId) {
     let markdown = "";
 
     for (const block of blocks) {
+      console.log(block.type);
       try {
         switch (block.type) {
           case "paragraph":
@@ -380,7 +345,10 @@ class RobustNotionClient {
             if (block.has_children) {
               try {
                 const children = await this.getPageContent(block.id, {});
-                const childMarkdown = await this.blocksToMarkdown(children);
+                const childMarkdown = await this.blocksToMarkdown(
+                  children,
+                  pageId
+                );
                 // 为子项添加缩进
                 const indentedChild = childMarkdown
                   .split("\n")
@@ -406,7 +374,10 @@ class RobustNotionClient {
             if (block.has_children) {
               try {
                 const children = await this.getPageContent(block.id, {});
-                const childMarkdown = await this.blocksToMarkdown(children);
+                const childMarkdown = await this.blocksToMarkdown(
+                  children,
+                  pageId
+                );
                 // 为子项添加缩进
                 const indentedChild = childMarkdown
                   .split("\n")
@@ -436,6 +407,96 @@ class RobustNotionClient {
           case "divider":
             markdown += "---\n\n";
             break;
+          case "link_preview":
+            const preview = block.link_preview;
+            const url = preview.url;
+
+            // 提取域名作为默认标题
+            let title = url;
+            try {
+              const urlObj = new URL(url);
+              title = urlObj.hostname;
+            } catch (e) {
+              title = url;
+            }
+
+            // 使用 Notion 提供的元数据（如果有）
+            const linkTitle = preview.title || title;
+            const linkDescription = preview.description || "";
+
+            // 生成 Markdown
+            markdown += `### 🔗 [${linkTitle}](${url})\n\n`;
+
+            if (linkDescription) {
+              markdown += `${linkDescription}\n\n`;
+            }
+
+            markdown += `**链接**: ${url}\n\n`;
+            break;
+          case "mention":
+            // 处理不同类型的富文本
+            const mention = block.mention;
+            debugger;
+            switch (mention.type) {
+              case "user":
+                // 用户提及
+                const userName = mention.user.name || mention.user.id;
+                text = `@${userName}`;
+                break;
+
+              case "page":
+                // 页面提及
+                const pageId = mention.page.id;
+                // 如果有页面标题，使用标题，否则使用 ID
+                text = `[Page](https://notion.so/${pageId.replace(/-/g, "")})`;
+                break;
+
+              case "database":
+                // 数据库提及
+                const databaseId = mention.database.id;
+                text = `[Database](https://notion.so/${databaseId.replace(
+                  /-/g,
+                  ""
+                )})`;
+                break;
+
+              case "date":
+                // 日期提及
+                const dateObj = mention.date;
+                if (dateObj.end) {
+                  text = `[${dateObj.start} → ${dateObj.end}]`;
+                } else {
+                  text = `[${dateObj.start}]`;
+                }
+                break;
+
+              case "link_preview":
+                // 链接预览
+                text = `[${mention.link_preview.url}](${mention.link_preview.url})`;
+                break;
+
+              case "template_mention":
+                // 模板提及（如 @today, @now 等）
+                const templateType = mention.template_mention.type;
+                switch (templateType) {
+                  case "template_mention_date":
+                    text =
+                      mention.template_mention.template_mention_date ||
+                      "@today";
+                    break;
+                  case "template_mention_user":
+                    text =
+                      mention.template_mention.template_mention_user || "@me";
+                    break;
+                  default:
+                    text = richText.plain_text;
+                }
+                break;
+
+              default:
+                text = richText.plain_text;
+            }
+            break;
 
           case "image":
             try {
@@ -449,7 +510,8 @@ class RobustNotionClient {
               console.log(`🖼️  处理图片: ${caption || "无标题"}`);
               const processedImageUrl = await this.imageUploader.processImage(
                 imageUrl,
-                caption
+                caption,
+                pageId
               );
 
               markdown += `![${caption}](${processedImageUrl})\n\n`;
@@ -461,19 +523,36 @@ class RobustNotionClient {
 
           case "callout":
             try {
+              const icon = block.callout.icon?.emoji || "💡";
+              let iconText = "";
               const calloutText = this.richTextToMarkdown(
                 block.callout.rich_text
               );
-              const icon = block.callout.icon?.emoji || "💡";
+              const color = block.callout.color || "default";
+
+              if (icon) {
+                if (icon.type === "emoji") {
+                  iconText = icon.emoji + " ";
+                } else {
+                  // 默认图标
+                  iconText = "💡 ";
+                }
+              }
+              if (!iconText && colorMap[color]) {
+                iconText = colorMap[color] + " ";
+              }
 
               // 使用引用格式来表示 callout
-              markdown += `> ${icon} **注意**\n> \n> ${calloutText}\n\n`;
+              markdown += `> ${iconText} **注意**\n> \n> ${calloutText}\n\n`;
 
               // 处理 callout 的子内容
               if (block.has_children) {
                 try {
                   const children = await this.getPageContent(block.id, {});
-                  const childMarkdown = await this.blocksToMarkdown(children);
+                  const childMarkdown = await this.blocksToMarkdown(
+                    children,
+                    pageId
+                  );
                   // 为子内容添加引用格式
                   const quotedChild = childMarkdown
                     .split("\n")
@@ -541,7 +620,6 @@ class RobustNotionClient {
               markdown += "<!-- Bookmark 处理失败 -->\n\n";
             }
             break;
-
           case "table":
             try {
               // 获取表格的子行
@@ -587,7 +665,10 @@ class RobustNotionClient {
             if (block.has_children) {
               try {
                 const children = await this.getPageContent(block.id, {});
-                const childMarkdown = await this.blocksToMarkdown(children);
+                const childMarkdown = await this.blocksToMarkdown(
+                  children,
+                  pageId
+                );
                 markdown += childMarkdown;
               } catch (childError) {
                 console.warn(`子块处理失败 ${block.id}:`, childError.message);
@@ -603,7 +684,6 @@ class RobustNotionClient {
 
     return markdown;
   }
-
   // 富文本转 Markdown（保持不变）
   richTextToMarkdown(richTextArray) {
     if (!Array.isArray(richTextArray)) {

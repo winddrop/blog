@@ -1,13 +1,11 @@
 ---
 title: websoket
-description: >-
-  # websoket 心跳机制建立 和  轮训垫片  ```powershell import Ajax from "@/common/http";
-  import api, { ENV } from
+description: websoket
 date: '2025-08-12T02:01:00.000Z'
-updated: '2025-08-12T06:08:00.000Z'
+updated: '2025-08-19T03:42:00.000Z'
 category:
-  - likou
-  - licko1
+  - 力扣
+  - 测试
 tags:
   - 前端
 notion_id: 24d314c0-6846-805d-8ad7-e2e78bd3d87a
