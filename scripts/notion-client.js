@@ -312,7 +312,6 @@ class RobustNotionClient {
     let markdown = "";
 
     for (const block of blocks) {
-      console.log(block.type);
       try {
         switch (block.type) {
           case "paragraph":
@@ -410,7 +409,6 @@ class RobustNotionClient {
           case "link_preview":
             const preview = block.link_preview;
             const url = preview.url;
-
             // 提取域名作为默认标题
             let title = url;
             try {
@@ -431,7 +429,7 @@ class RobustNotionClient {
               markdown += `${linkDescription}\n\n`;
             }
 
-            markdown += `**链接**: ${url}\n\n`;
+            // markdown += `**链接**: ${url}\n\n`;
             break;
           case "mention":
             // 处理不同类型的富文本
